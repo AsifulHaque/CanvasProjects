@@ -27,8 +27,7 @@ canvas.addEventListener('click', function(event){
 canvas.addEventListener('mousemove', function(event){
     mouse.x = event.x;
     mouse.y = event.y;
-    let numParticles = Math.random() * 20 + 1;
-    for (let i = 0; i < numParticles; i++) {
+    for (let i = 0; i < 5; i++) {
         particlesArray.push(new Particle());
     }
 })
@@ -60,18 +59,30 @@ function handleParticles(){
     for (let i = 0; i < particlesArray.length; i++) {
         particlesArray[i].update();
         particlesArray[i].draw();
+
+        for (let j = 0; j < particlesArray.length; j++) {
+            const dx = particlesArray[i].x - particlesArray[j].x;
+            const dy = particlesArray[i].y - particlesArray[j].y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+            if (distance < 100){
+                ctx.beginPath();
+                ctx.strokeStyle = particlesArray[i].color;
+                ctx.lineWidth = 0.3;
+                ctx.moveTo(particlesArray[i].x, particlesArray[i].y);
+                ctx.lineTo(particlesArray[j].x, particlesArray[j].y);
+                ctx.stroke();
+            }
+        }
         if (particlesArray[i].size <= .3){
             particlesArray.splice(i, 1);
             console.log(particlesArray.length);
             i--;
         }
-        
     }
 }
 //============== Main Loop ==============
 function animate(){
-    ctx.fillStyle = 'rgba(0,0,0,0.02)';
-    ctx.fillRect(0,0,canvas.width, canvas.height);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
     handleParticles();
     hue++;
     requestAnimationFrame(animate);
