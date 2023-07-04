@@ -1,0 +1,24 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SketchPad</title>
+    <link rel="stylesheet" href="sketchpad.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎨</text></svg>">
+</head>
+<body>
+    <canvas id="canvas1"></canvas>
+    <ul id="menu">
+        <li><button id="downloadBtn">Download</button></li>
+        <li><button id="clearBtn">Clear</button></li>
+        <li><input type="color" id="colorPckr" value="#000000"></li>
+        <li><p>Brush Size</p></li>
+        <li><input type="range" min="1" max="100" value="5" id="brushSizeSld"></li>
+        <li><p>Opacity</p></li>
+        <li><input type="range" min="1" max="100" value="100" id="opacitySld"></li>
+    </ul>
+    
+
+    <script src="sketchpad.js"></script>
+</body>
+</html>
