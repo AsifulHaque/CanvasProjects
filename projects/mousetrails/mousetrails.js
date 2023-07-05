@@ -22,7 +22,7 @@ canvas.addEventListener('click', function(event){
     for (let i = 0; i < 50; i++) {
         particlesArray.push(new Particle());
     }
-})
+});
 
 canvas.addEventListener('mousemove', function(event){
     mouse.x = event.x;
@@ -31,7 +31,15 @@ canvas.addEventListener('mousemove', function(event){
     for (let i = 0; i < numParticles; i++) {
         particlesArray.push(new Particle());
     }
-})
+});
+canvas.addEventListener('touchmove', function(event){
+    mouse.x = event.x;
+    mouse.y = event.y;
+    let numParticles = Math.random() * 20 + 1;
+    for (let i = 0; i < numParticles; i++) {
+        particlesArray.push(new Particle());
+    }
+});
 //============== Particles ==============
 class Particle {
     constructor(){

@@ -3,7 +3,6 @@ const canvas = document.getElementById('canvas1');
 const ctx = canvas.getContext('2d');
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
-console.log(ctx);
 let bounds;
 //--------------MEMORY CANVAS-----------------------------
 let memCanvas = document.createElement('canvas');
@@ -90,22 +89,49 @@ canvas.addEventListener('mousemove', function(event){
         menu.style.display = 'inline';
     }  
 });
+canvas.addEventListener('touchmove', function(event){
+        if(brush.isDown == false){
+            brush.isDown=true;
+            menu.style.display = 'none';
+            memCtx.beginPath();
+            memCtx.moveTo(event.clientX - bounds.x, event.clientY - bounds.y)
+        }
+        else{
+            memCtx.lineTo(event.clientX - bounds.x, event.clientY - bounds.y);
+            memCtx.stroke();
+            clearCanvas();
+            ctx.drawImage(memCanvas, 0, 0);
+        }
+});
+canvas.addEventListener('touchend', function(event){
+    if(brush.isDown == false) drawCircle(event.clientX - bounds.x, event.clientY - bounds.y);
+    else {
+        brush.isDown = false;
+        menu.style.display = 'inline';
+    }
+});
+canvas.addEventListener('click', function(event){
+    if(brush.isDown == false) drawCircle(event.clientX - bounds.x, event.clientY - bounds.y);
+});
 
+//---------------------- CLEAR ---------------------
 function clearCanvas(){
     ctx.fillStyle = "#ffffff";
     ctx.fillRect(0,0,canvas.width, canvas.height);
 }
 
-function drawCircle(x,y) {
-    ctx.fillStyle = brush.color;
-    ctx.beginPath();
-    ctx.arc(x, y, brush.lineWidth, 0, Math.PI * 2);
-    ctx.fill();
+ function drawCircle(x,y) {
+    memCtx.fillStyle = memCtx.strokeStyle;
+    memCtx.beginPath();
+    memCtx.arc(x, y, memCtx.lineWidth / 2, 0, Math.PI * 2);
+    memCtx.fill();
+    clearCanvas();
+    ctx.drawImage(memCanvas, 0, 0);
 }
 
 function downloadImage(){
     let downloadLink = document.createElement('a');
-    downloadLink.setAttribute('download', 'CanvasAsImage.png');
+    downloadLink.setAttribute('download', 'sketch.png');
     canvas.toBlob(function(blob) {
       let url = URL.createObjectURL(blob);
       downloadLink.setAttribute('href', url);
