@@ -101,11 +101,12 @@ header .nav-bar{
     font-size: 1em;
     text-decoration: none;
     text-shadow: var(--text-shadow);
+    margin-left: 45px;
 }
 
-.navigation .nav-items a:not(:last-child){
+/*.navigation .nav-items a:not(:last-child){
     margin-right: 45px;
-}
+}*/
 
 /*================= Home ==============*/
 .home{
@@ -277,6 +278,9 @@ header .nav-bar{
 @media screen and (max-width: 785px) {
     header .nav-bar{
         padding: 25px 20px;
+    }
+    .navigation .nav-items a{
+        margin-left: 20px;
     }
     .section{
         padding: 25px 20px;
