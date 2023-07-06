@@ -90,21 +90,22 @@ canvas.addEventListener('mousemove', function(event){
     }  
 });
 canvas.addEventListener('touchmove', function(event){
-        if(brush.isDown == false){
-            brush.isDown=true;
-            menu.style.display = 'none';
-            memCtx.beginPath();
-            memCtx.moveTo(event.clientX - bounds.x, event.clientY - bounds.y)
-        }
-        else{
-            memCtx.lineTo(event.clientX - bounds.x, event.clientY - bounds.y);
-            memCtx.stroke();
-            clearCanvas();
-            ctx.drawImage(memCanvas, 0, 0);
-        }
+    event.preventDefault();
+    if(brush.isDown == false){
+        brush.isDown=true;
+        menu.style.display = 'none';
+        memCtx.beginPath();
+        memCtx.moveTo(event.changedTouches[0].clientX - bounds.x, event.changedTouches[0].clientY - bounds.y)
+    }
+    else{
+        memCtx.lineTo(event.changedTouches[0].clientX - bounds.x, event.changedTouches[0].clientY - bounds.y);
+        memCtx.stroke();
+        clearCanvas();
+        ctx.drawImage(memCanvas, 0, 0);
+    }
 });
 canvas.addEventListener('touchend', function(event){
-    if(brush.isDown == false) drawCircle(event.clientX - bounds.x, event.clientY - bounds.y);
+    if(brush.isDown == false) drawCircle(event.changedTouches[0].clientX - bounds.x, event.changedTouches[0].clientY - bounds.y);
     else {
         brush.isDown = false;
         menu.style.display = 'inline';

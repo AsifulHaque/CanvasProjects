@@ -33,6 +33,7 @@ canvas.addEventListener('mousemove', function(event){
     }
 });
 canvas.addEventListener('touchmove', function(event){
+    event.preventDefault();
     mouse.x = event.changedTouches[0].clientX;
     mouse.y = event.changedTouches[0].clientY;
     let numParticles = Math.random() * 20 + 1;
