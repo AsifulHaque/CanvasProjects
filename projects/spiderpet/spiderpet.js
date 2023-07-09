@@ -35,6 +35,12 @@ class vector2D {
 }
 //============== SpiderWeb Class ==============
 class Spiderweb {
+    /**
+    * @param {vector2D} center
+    * @param {float} radius
+    * @param {int} branch Number of branches
+    * @param {int} thread Number of threads 
+    */
     constructor(center, radius, branch, thread){
         this.center = center;
         this.radius = radius;
@@ -67,7 +73,7 @@ class Spiderweb {
         for (let i = 1; i <= this.thread; i++) {
             let points = [];
             points.push(new vector2D(this.center.x + i * this.radius / (this.thread + 1), this.center.y));// first point in a single thread loop
-            for (let j = 0; j < this.branch; j++) {//---------------Draw Branches -- full loop
+            for (let j = 0; j < this.branch; j++) {//---------------For each Branch
                 let a = points[0].rotate(j * 360 / this.branch, this.center);
                 if (j>0){//-----------------Start thread loop
                     points.push(a);
@@ -89,12 +95,30 @@ class Spiderweb {
         }
     }
 }
-//============== Functions ==============
-/* spiderweb1 = new Spiderweb();
-spiderweb1.draw(); */
 
 //============== Events ==============
 canvas.addEventListener('click', e =>{
     let spiderweb1 = new Spiderweb(new vector2D(e.clientX, e.clientY), Math.random() * canvas.height/3 + 1, Math.random() * 10 + 3, Math.random() * 10 + 1);
     spiderweb1.draw();
-})
+    let insect1 = new Insect(new vector2D(e.clientX, e.clientY), 100);
+    insect1.draw();
+});
+
+//============== Insect class =============
+class Insect{
+    /**
+    * @param {vector2D} transform
+    */
+    constructor(transform, size){
+        this.transform = transform;
+        this.size = size;
+        this.color = 'red';
+    }
+    /* TODO: Move this to Global render */
+    draw(){
+        ctx.beginPath();
+        ctx.arc(this.transform.x, this.transform.y, this.size/2, 0, Math.PI * 2);
+        ctx.fillStyle = this.color;
+        ctx.fill();
+    }
+}
