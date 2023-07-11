@@ -106,7 +106,7 @@ class Spiderweb {
 //============== Events ==============
 canvas.addEventListener('click', e =>{
     //objects.push(new Spiderweb(new vector2D(e.clientX, e.clientY), Math.random() * canvas.height/3 + 1, Math.random() * 10 + 3, Math.random() * 10 + 1));
-    objects.push(new Insect(new vector2D(e.clientX, e.clientY), Math.random() * 40 + 10));
+    objects.push(new Insect(new vector2D(e.clientX, e.clientY), Math.random() * 40 + 20));
 });
 
 //============== Insect class =============
@@ -140,11 +140,11 @@ class Insect{
     draw(){
 
         //Collision Boungs
-        ctx.strokeStyle = 'blue';
+/*         ctx.strokeStyle = 'blue';
         ctx.beginPath();
         ctx.rect(this.transform.x - this.size /2, this.transform.y - this.size / 2, this.size, this.size);
         ctx.stroke();
-
+ */
         //BackWing
         ctx.fillStyle = 'rgba(255, 255, 255, .2)';
         ctx.beginPath();
@@ -157,32 +157,32 @@ class Insect{
         ctx.fill();
         //Head
         ctx.beginPath();
-        ctx.arc(this.transform.x - this.size/2, this.transform.y, this.size/4, 0, Math.PI * 2);
+        ctx.arc(this.velocity.x > 0 ? this.transform.x + this.size/2 : this.transform.x - this.size/2, this.transform.y, this.size/4, 0, Math.PI * 2);
         ctx.fill();
         //Eye
         ctx.strokeStyle = 'grey'
         ctx.fillStyle = 'black';
         ctx.beginPath();
-        ctx.arc(this.transform.x - this.size/1.45, this.transform.y - this.size / 11, this.size/7, 0, Math.PI * 2);
+        ctx.arc(this.velocity.x > 0 ? this.transform.x + this.size/1.45 : this.transform.x - this.size/1.45, this.transform.y - this.size / 11, this.size/7, 0, Math.PI * 2);
         ctx.fill();
         ctx.stroke();
         //Eye-front
         ctx.beginPath();
-        ctx.arc(this.transform.x - this.size/1.7, this.transform.y - this.size / 11, this.size/7, 0, Math.PI * 2);
+        ctx.arc(this.velocity.x > 0 ? this.transform.x + this.size/1.7 : this.transform.x - this.size/1.7, this.transform.y - this.size / 11, this.size/7, 0, Math.PI * 2);
         ctx.fill();
         //EyeBall
         ctx.fillStyle = 'white';
         ctx.beginPath();
-        ctx.arc(this.transform.x - this.size/1.4, this.transform.y - this.size / 11, this.size/25, 0, Math.PI * 2);
+        ctx.arc(this.velocity.x > 0 ? this.transform.x + this.size/1.4 : this.transform.x - this.size/1.4, this.transform.y - this.size / 11, this.size/25, 0, Math.PI * 2);
         ctx.fill();
         //EyeBall-front
         ctx.beginPath();
-        ctx.arc(this.transform.x - this.size/1.65, this.transform.y - this.size / 11, this.size/25, 0, Math.PI * 2);
+        ctx.arc(this.velocity.x > 0 ? this.transform.x + this.size/1.65 : this.transform.x - this.size/1.65, this.transform.y - this.size / 11, this.size/25, 0, Math.PI * 2);
         ctx.fill();
         //FrontWing
         ctx.fillStyle = 'rgba(255, 255, 255, .6)';
         ctx.beginPath();
-        ctx.ellipse(this.transform.x + this.size / 5, this.wingState? this.transform.y - this.size / 2.5 : this.transform.y + this.size / 2.5, this.size /1.5, this.size /2.5, this.wingState ? Math.PI * -1.25 : Math.PI * 1.25, 0, Math.PI * 2);
+        ctx.ellipse(this.transform.x + this.size / 3, this.wingState? this.transform.y - this.size / 2.5 : this.transform.y + this.size / 2.5, this.size /1.5, this.size /2.5, this.wingState ? Math.PI * -1.25 : Math.PI * 1.25, 0, Math.PI * 2);
         ctx.fill();
     }
 }
