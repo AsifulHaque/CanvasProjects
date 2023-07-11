@@ -115,18 +115,30 @@ class Insect{
         this.updateFrames = 0;
     }
     update(){
-        if (this.transform.x - this.size / 2 < 0 || this.transform.x + this.size / 2 > canvas.width) {
-            this.velocity = new vector2D(this.velocity.x * -1, this.velocity.y);
+        //Outside of Boundary
+        if(this.transform.x < 0) this.transform.x = this.size / 2;
+        else if(this.transform.x > canvas.width) this.transform.x = canvas.width - this.size / 2;
+        if(this.transform.y < 0) this.transform.y = this.size / 2;
+        else if(this.transform.y > canvas.height) this.transform.y = canvas.height -this.size / 2;
+        //Deflect X
+        if (this.transform.x - this.size / 2 < 0) {
+            this.velocity = new vector2D(this.velocity.x > 0 ? this.velocity.x : this.velocity.x * -1, this.velocity.y);
+        }else if(this.transform.x + this.size / 2 > canvas.width){
+            this.velocity = new vector2D(this.velocity.x > 0 ? this.velocity.x * -1 : this.velocity.x, this.velocity.y);
         }
-        if (this.transform.y - this.size / 2 < 0 || this.transform.y + this.size / 2 > canvas.height) {
-            this.velocity = new vector2D(this.velocity.x, this.velocity.y * -1);
+        //Deflect Y
+        if (this.transform.y - this.size / 2 < 0) {
+            this.velocity = new vector2D(this.velocity.x, this.velocity.y > 0 ? this.velocity.y : this.velocity.y * -1);
+        }else if(this.transform.y + this.size / 2 > canvas.height){
+            this.velocity = new vector2D(this.velocity.x, this.velocity.y > 0 ? this.velocity.y * -1: this.velocity.y);
         }
+        //Update transform
         this.transform = this.transform.add(this.velocity);
+        //Animation state
         this.updateFrames ++;
         if (this.updateFrames % 8 == 0){
             this.wingState = this.wingState ? false : true;
         }
-        //
     }
 
     draw(){
