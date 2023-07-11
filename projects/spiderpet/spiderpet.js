@@ -9,14 +9,6 @@ window.addEventListener('resize', function(){
     canvas.height = window.innerHeight;
 })
 
-/* var background = new Image();
-background.src = "https://images.unsplash.com/photo-1497465135434-9dc15238075a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1416&q=80";
-
-// Make sure the image is loaded first otherwise nothing will draw.
-background.onload = function(){
-    ctx.drawImage(background,0,0, canvas.width, canvas.height);   
-} */
-
 //============== Vector Class ==============
 class vector2D {
     constructor(x, y){
@@ -136,7 +128,7 @@ class Insect{
         }
         //
     }
-    /* TODO: Move this to Global render */
+
     draw(){
 
         //Collision Boungs
@@ -155,12 +147,14 @@ class Insect{
         ctx.beginPath();
         ctx.ellipse(this.transform.x, this.transform.y, this.size /2, this.size /2.5, 0, 0, Math.PI * 2);
         ctx.fill();
+        ctx.strokeStyle = 'white';
+        ctx.stroke();
         //Head
         ctx.beginPath();
         ctx.arc(this.velocity.x > 0 ? this.transform.x + this.size/2 : this.transform.x - this.size/2, this.transform.y, this.size/4, 0, Math.PI * 2);
         ctx.fill();
+        ctx.stroke();
         //Eye
-        ctx.strokeStyle = 'grey'
         ctx.fillStyle = 'black';
         ctx.beginPath();
         ctx.arc(this.velocity.x > 0 ? this.transform.x + this.size/1.45 : this.transform.x - this.size/1.45, this.transform.y - this.size / 11, this.size/7, 0, Math.PI * 2);
@@ -190,7 +184,7 @@ class Insect{
 //====================== Main Loop ====================
 let objects = [];
 function render(){
-    ctx.fillStyle = 'rgba(0, 0, 0, 1)';
+    ctx.fillStyle = 'rgba(0, 0, 0, .3)';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     for (let i = 0; i < objects.length; i++) {
         if(objects[i].constructor.name == 'Insect')
