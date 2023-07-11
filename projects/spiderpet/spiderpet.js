@@ -105,8 +105,8 @@ class Spiderweb {
 
 //============== Events ==============
 canvas.addEventListener('click', e =>{
-    objects.push(new Spiderweb(new vector2D(e.clientX, e.clientY), Math.random() * canvas.height/3 + 1, Math.random() * 10 + 3, Math.random() * 10 + 1));
-    objects.push(new Insect(new vector2D(e.clientX, e.clientY), 20));
+    //objects.push(new Spiderweb(new vector2D(e.clientX, e.clientY), Math.random() * canvas.height/3 + 1, Math.random() * 10 + 3, Math.random() * 10 + 1));
+    objects.push(new Insect(new vector2D(e.clientX, e.clientY), Math.random() * 40 + 10));
 });
 
 //============== Insect class =============
@@ -119,6 +119,8 @@ class Insect{
         this.size = size;
         this.color = 'hsl(' + Math.random() * 360 + ', 100%, 50%)';;
         this.velocity = new vector2D((Math.random() * 3) - 1, (Math.random() * 3) - 1);
+        this.wingState = true;
+        this.updateFrames = 0;
     }
     update(){
         if (this.transform.x - this.size / 2 < 0 || this.transform.x + this.size / 2 > canvas.width) {
@@ -128,12 +130,59 @@ class Insect{
             this.velocity = new vector2D(this.velocity.x, this.velocity.y * -1);
         }
         this.transform = this.transform.add(this.velocity);
+        this.updateFrames ++;
+        if (this.updateFrames % 8 == 0){
+            this.wingState = this.wingState ? false : true;
+        }
+        //
     }
     /* TODO: Move this to Global render */
     draw(){
-        ctx.fillStyle = this.color;
+
+        //Collision Boungs
+        ctx.strokeStyle = 'blue';
         ctx.beginPath();
-        ctx.arc(this.transform.x, this.transform.y, this.size/2, 0, Math.PI * 2);
+        ctx.rect(this.transform.x - this.size /2, this.transform.y - this.size / 2, this.size, this.size);
+        ctx.stroke();
+
+        //BackWing
+        ctx.fillStyle = 'rgba(255, 255, 255, .2)';
+        ctx.beginPath();
+        ctx.ellipse(this.transform.x + this.size / 7, this.wingState? this.transform.y - this.size / 2 : this.transform.y + this.size / 2, this.size /1.5, this.size /2.5, this.wingState ? Math.PI * -1.25 : Math.PI * 1.25, 0, Math.PI * 2);
+        ctx.fill();
+        //Body
+        ctx.fillStyle = 'dimgrey';
+        ctx.beginPath();
+        ctx.ellipse(this.transform.x, this.transform.y, this.size /2, this.size /2.5, 0, 0, Math.PI * 2);
+        ctx.fill();
+        //Head
+        ctx.beginPath();
+        ctx.arc(this.transform.x - this.size/2, this.transform.y, this.size/4, 0, Math.PI * 2);
+        ctx.fill();
+        //Eye
+        ctx.strokeStyle = 'grey'
+        ctx.fillStyle = 'black';
+        ctx.beginPath();
+        ctx.arc(this.transform.x - this.size/1.45, this.transform.y - this.size / 11, this.size/7, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.stroke();
+        //Eye-front
+        ctx.beginPath();
+        ctx.arc(this.transform.x - this.size/1.7, this.transform.y - this.size / 11, this.size/7, 0, Math.PI * 2);
+        ctx.fill();
+        //EyeBall
+        ctx.fillStyle = 'white';
+        ctx.beginPath();
+        ctx.arc(this.transform.x - this.size/1.4, this.transform.y - this.size / 11, this.size/25, 0, Math.PI * 2);
+        ctx.fill();
+        //EyeBall-front
+        ctx.beginPath();
+        ctx.arc(this.transform.x - this.size/1.65, this.transform.y - this.size / 11, this.size/25, 0, Math.PI * 2);
+        ctx.fill();
+        //FrontWing
+        ctx.fillStyle = 'rgba(255, 255, 255, .6)';
+        ctx.beginPath();
+        ctx.ellipse(this.transform.x + this.size / 5, this.wingState? this.transform.y - this.size / 2.5 : this.transform.y + this.size / 2.5, this.size /1.5, this.size /2.5, this.wingState ? Math.PI * -1.25 : Math.PI * 1.25, 0, Math.PI * 2);
         ctx.fill();
     }
 }
@@ -141,7 +190,7 @@ class Insect{
 //====================== Main Loop ====================
 let objects = [];
 function render(){
-    ctx.fillStyle = 'rgba(0, 0, 0, .2)';
+    ctx.fillStyle = 'rgba(0, 0, 0, 1)';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     for (let i = 0; i < objects.length; i++) {
         if(objects[i].constructor.name == 'Insect')
