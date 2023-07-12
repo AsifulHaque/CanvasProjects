@@ -150,7 +150,7 @@ class Insect{
         ctx.ellipse(this.transform.x + this.size / 7, this.wingState? this.transform.y - this.size / 2 : this.transform.y + this.size / 2, this.size /1.5, this.size /2.5, this.wingState ? Math.PI * -1.25 : Math.PI * 1.25, 0, Math.PI * 2);
         ctx.fill();
         //Body
-        ctx.fillStyle = 'dimgrey';
+        ctx.fillStyle = this.color;
         ctx.beginPath();
         ctx.ellipse(this.transform.x, this.transform.y, this.size /2, this.size /2.5, 0, 0, Math.PI * 2);
         ctx.fill();
@@ -196,9 +196,32 @@ class Spider{
     constructor(transform, size){
         this.transform = transform;
         this.size = size;
-        this.primaryColor = 'maroon';
-        this.accentColor = 'blue';
+        this.primaryColor = 'teal';
+        this.accentColor = 'cadetblue';
         this.highlightColor = 'white';
+        /**Eye focus */
+        this.focus = new vector2D(0,1);
+    }
+    update(){
+        this.updateFocus();
+    }
+    updateFocus(){
+        let nearestDistance = undefined;
+        let nearestInsectID = undefined;
+        for (let i = 0; i < insects.length; i++) {
+            let dx = insects[i].transform.x - this.transform.x;
+            let dy = insects[i].transform.y - this.transform.y;
+            let distance = Math.sqrt(dx * dx + dy * dy);
+            if(nearestDistance == undefined || distance < nearestDistance) {
+                nearestDistance = distance;
+                nearestInsectID = i;
+            }
+        }
+        if(nearestInsectID != undefined){
+            let dx = insects[nearestInsectID].transform.x - this.transform.x;
+            let dy = insects[nearestInsectID].transform.y - this.transform.y - this.size/2;
+            this.focus = (Math.abs(dx)>Math.abs(dy))? new vector2D(dx/Math.abs(dx), dy/Math.abs(dx)) : new vector2D(dx/Math.abs(dy), dy/Math.abs(dy));
+        }
     }
     draw(){
         let rightLegStart = new vector2D(this.transform.x - this.size/2, this.transform.y);
@@ -223,11 +246,11 @@ class Spider{
         //overall
         ctx.lineWidth = this.size/50;
         //Body
-        ctx.fillStyle = 'grey';
+        ctx.fillStyle = this.primaryColor;
         ctx.beginPath();
         ctx.ellipse(this.transform.x, this.transform.y - this.size/2, this.size /1.5, this.size/1.5, 0, 0, Math.PI * 2);
         ctx.fill();
-        ctx.strokeStyle = 'white';
+        ctx.strokeStyle = this.highlightColor;
         ctx.stroke();
         //Head
         ctx.beginPath();
@@ -245,14 +268,14 @@ class Spider{
         //EyeBall
         ctx.fillStyle = 'black';
         ctx.beginPath();
-        ctx.ellipse(this.transform.x + this.size / 8, this.transform.y + this.size / 2, this.size /18, this.size /18, 0, 0, Math.PI * 2);
+        ctx.ellipse(this.transform.x + this.size / 8 + this.focus.x * this.size/18, this.transform.y + this.size / 2 + this.focus.y * this.size/18, this.size /18, this.size /18, 0, 0, Math.PI * 2);
         ctx.fill();
         ctx.beginPath();
-        ctx.ellipse(this.transform.x - this.size / 8, this.transform.y + this.size / 2, this.size /18, this.size /18, 0, 0, Math.PI * 2);
+        ctx.ellipse(this.transform.x - this.size / 8 + this.focus.x * this.size/18, this.transform.y + this.size / 2 + this.focus.y * this.size/18, this.size /18, this.size /18, 0, 0, Math.PI * 2);
         ctx.fill();
         //Legs-Left--------------------------------------
-        ctx.fillStyle = 'white';
-        ctx.strokeStyle = 'dimgrey';
+        ctx.fillStyle = this.highlightColor;
+        ctx.strokeStyle = this.accentColor;
         ctx.lineCap = 'round';
         ctx.lineWidth = this.size/20;
         ctx.beginPath();
@@ -345,23 +368,35 @@ class Spider{
 //==========================================
 //================= Events =================
 canvas.addEventListener('click', e =>{
-    //objects.push(new Spiderweb(new vector2D(e.clientX, e.clientY), Math.random() * canvas.height/3 + 1, Math.random() * 10 + 3, Math.random() * 10 + 1));
-    objects.push(new Insect(new vector2D(e.clientX, e.clientY), Math.random() * 40 + 20));
+   insects.push(new Insect(new vector2D(e.clientX, e.clientY), Math.random() * 40 + 20));
 });
-
+canvas.addEventListener('mousemove', e=>{//TODO need to change when multiple spider is on the scene
+    if(!insects.length){
+        let dx = e.clientX - spiders[0].transform.x;
+        let dy = e.clientY - spiders[0].transform.y - spiders[0].size/2;
+        spiders[0].focus = (Math.abs(dx)>Math.abs(dy))? new vector2D(dx/Math.abs(dx), dy/Math.abs(dx)) : new vector2D(dx/Math.abs(dy), dy/Math.abs(dy));
+    }
+})
 //====================== Main Loop ====================
-let objects = [];
+let insects = [];
+let spiders = [];
 function render(){
+    //Clear canvas
     ctx.fillStyle = 'rgba(0, 0, 0, .3)';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-    for (let i = 0; i < objects.length; i++) {
-        if(objects[i].constructor.name == 'Insect')
-        {
-            objects[i].update();
-        }
-        objects[i].draw();
+
+    //DrawSpiders
+    for (let i = 0; i < spiders.length; i++) {
+        spiders[i].update();
+        spiders[i].draw();
     }
+    //DrawInsects
+    for (let i = 0; i < insects.length; i++) {
+        insects[i].update();
+        insects[i].draw();
+    }
+    //----
     requestAnimationFrame(render);
 }
-objects.push(new Spider(new vector2D(canvas.width/2, canvas.height/2), 200));
+spiders.push(new Spider(new vector2D(canvas.width/2, canvas.height/2), 200));
 render();
