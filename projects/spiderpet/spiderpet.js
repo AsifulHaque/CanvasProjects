@@ -196,6 +196,9 @@ class Spider{
     constructor(transform, size){
         this.transform = transform;
         this.size = size;
+        this.primaryColor = 'maroon';
+        this.accentColor = 'blue';
+        this.highlightColor = 'white';
     }
     draw(){
         let rightLegStart = new vector2D(this.transform.x - this.size/2, this.transform.y);
@@ -203,12 +206,20 @@ class Spider{
         let rightLeg2Mid = new vector2D(rightLegStart.x - this.size/2, rightLegStart.y).rotate(-15, rightLegStart);
         let rightLeg3Mid = new vector2D(rightLegStart.x - this.size/2, rightLegStart.y).rotate(15, rightLegStart);
         let rightLeg4Mid = new vector2D(rightLegStart.x - this.size/2, rightLegStart.y).rotate(45, rightLegStart);
+        let rightLeg1End = new vector2D(rightLeg1Mid.x - this.size/2, rightLeg1Mid.y).rotate(-85, rightLeg1Mid);
+        let rightLeg2End = new vector2D(rightLeg2Mid.x - this.size/2, rightLeg2Mid.y).rotate(-60, rightLeg2Mid);
+        let rightLeg3End = new vector2D(rightLeg3Mid.x - this.size/2, rightLeg3Mid.y).rotate(60, rightLeg3Mid);
+        let rightLeg4End = new vector2D(rightLeg4Mid.x - this.size/2, rightLeg4Mid.y).rotate(85, rightLeg4Mid);
 
         let leftLegStart = new vector2D(this.transform.x + this.size/2, this.transform.y);
         let leftLeg1Mid = new vector2D(leftLegStart.x + this.size/2, leftLegStart.y).rotate(45, leftLegStart);
         let leftLeg2Mid = new vector2D(leftLegStart.x + this.size/2, leftLegStart.y).rotate(15, leftLegStart);
         let leftLeg3Mid = new vector2D(leftLegStart.x + this.size/2, leftLegStart.y).rotate(-15, leftLegStart);
         let leftLeg4Mid = new vector2D(leftLegStart.x + this.size/2, leftLegStart.y).rotate(-45, leftLegStart);
+        let leftLeg1End = new vector2D(leftLeg1Mid.x + this.size/2, leftLeg1Mid.y).rotate(85, leftLeg1Mid);
+        let leftLeg2End = new vector2D(leftLeg2Mid.x + this.size/2, leftLeg2Mid.y).rotate(60, leftLeg2Mid);
+        let leftLeg3End = new vector2D(leftLeg3Mid.x + this.size/2, leftLeg3Mid.y).rotate(-60, leftLeg3Mid);
+        let leftLeg4End = new vector2D(leftLeg4Mid.x + this.size/2, leftLeg4Mid.y).rotate(-85, leftLeg4Mid);
         //overall
         ctx.lineWidth = this.size/50;
         //Body
@@ -239,7 +250,7 @@ class Spider{
         ctx.beginPath();
         ctx.ellipse(this.transform.x - this.size / 8, this.transform.y + this.size / 2, this.size /18, this.size /18, 0, 0, Math.PI * 2);
         ctx.fill();
-        //Legs-Left
+        //Legs-Left--------------------------------------
         ctx.fillStyle = 'white';
         ctx.strokeStyle = 'dimgrey';
         ctx.lineCap = 'round';
@@ -251,6 +262,7 @@ class Spider{
         ctx.beginPath();
         ctx.moveTo(leftLegStart.x, leftLegStart.y);
         ctx.lineTo(leftLeg1Mid.x, leftLeg1Mid.y);
+        ctx.lineTo(leftLeg1End.x, leftLeg1End.y);
         ctx.stroke();
         ctx.beginPath();
         ctx.ellipse(leftLeg1Mid.x, leftLeg1Mid.y, this.size /25, this.size/25, 0, 0, Math.PI * 2);
@@ -259,6 +271,7 @@ class Spider{
         ctx.beginPath();
         ctx.moveTo(leftLegStart.x, leftLegStart.y);
         ctx.lineTo(leftLeg2Mid.x, leftLeg2Mid.y);
+        ctx.lineTo(leftLeg2End.x, leftLeg2End.y);
         ctx.stroke();
         ctx.beginPath();
         ctx.ellipse(leftLeg2Mid.x, leftLeg2Mid.y, this.size /25, this.size/25, 0, 0, Math.PI * 2);
@@ -267,6 +280,7 @@ class Spider{
         ctx.beginPath();
         ctx.moveTo(leftLegStart.x, leftLegStart.y);
         ctx.lineTo(leftLeg3Mid.x, leftLeg3Mid.y);
+        ctx.lineTo(leftLeg3End.x, leftLeg3End.y);
         ctx.stroke();
         ctx.beginPath();
         ctx.ellipse(leftLeg3Mid.x, leftLeg3Mid.y, this.size /25, this.size/25, 0, 0, Math.PI * 2);
@@ -275,6 +289,7 @@ class Spider{
         ctx.beginPath();
         ctx.moveTo(leftLegStart.x, leftLegStart.y);
         ctx.lineTo(leftLeg4Mid.x, leftLeg4Mid.y);
+        ctx.lineTo(leftLeg4End.x, leftLeg4End.y);
         ctx.stroke();
         ctx.beginPath();
         ctx.ellipse(leftLeg4Mid.x, leftLeg4Mid.y, this.size /25, this.size/25, 0, 0, Math.PI * 2);
@@ -283,10 +298,11 @@ class Spider{
         ctx.beginPath();
         ctx.ellipse(rightLegStart.x, rightLegStart.y, this.size /18, this.size/18, 0, 0, Math.PI * 2);
         ctx.fill();
-        //Leg1-R
+        //Leg1-R--------------------------------------
         ctx.beginPath();
         ctx.moveTo(rightLegStart.x, rightLegStart.y);
         ctx.lineTo(rightLeg1Mid.x, rightLeg1Mid.y);
+        ctx.lineTo(rightLeg1End.x, rightLeg1End.y);
         ctx.stroke();
         ctx.beginPath();
         ctx.ellipse(rightLeg1Mid.x, rightLeg1Mid.y, this.size /25, this.size/25, 0, 0, Math.PI * 2);
@@ -295,6 +311,7 @@ class Spider{
         ctx.beginPath();
         ctx.moveTo(rightLegStart.x, rightLegStart.y);
         ctx.lineTo(rightLeg2Mid.x, rightLeg2Mid.y);
+        ctx.lineTo(rightLeg2End.x, rightLeg2End.y);
         ctx.stroke();
         ctx.beginPath();
         ctx.ellipse(rightLeg2Mid.x, rightLeg2Mid.y, this.size /25, this.size/25, 0, 0, Math.PI * 2);
@@ -303,6 +320,7 @@ class Spider{
         ctx.beginPath();
         ctx.moveTo(rightLegStart.x, rightLegStart.y);
         ctx.lineTo(rightLeg3Mid.x, rightLeg3Mid.y);
+        ctx.lineTo(rightLeg3End.x, rightLeg3End.y);
         ctx.stroke();
         ctx.beginPath();
         ctx.ellipse(rightLeg3Mid.x, rightLeg3Mid.y, this.size /25, this.size/25, 0, 0, Math.PI * 2);
@@ -311,6 +329,7 @@ class Spider{
         ctx.beginPath();
         ctx.moveTo(rightLegStart.x, rightLegStart.y);
         ctx.lineTo(rightLeg4Mid.x, rightLeg4Mid.y);
+        ctx.lineTo(rightLeg4End.x, rightLeg4End.y);
         ctx.stroke();
         ctx.beginPath();
         ctx.ellipse(rightLeg4Mid.x, rightLeg4Mid.y, this.size /25, this.size/25, 0, 0, Math.PI * 2);
