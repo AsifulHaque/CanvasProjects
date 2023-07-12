@@ -136,8 +136,9 @@ class Insect{
     }
 
     draw(){
-
-        //Collision Boungs
+        //overall
+        ctx.lineWidth = this.size/50;
+        //Collision Bounds
 /*         ctx.strokeStyle = 'blue';
         ctx.beginPath();
         ctx.rect(this.transform.x - this.size /2, this.transform.y - this.size / 2, this.size, this.size);
@@ -187,7 +188,143 @@ class Insect{
     }
 }
 
-//============== Events ==============
+//============== Spider class =============
+class Spider{
+    /**
+     * @param {vector2D} transform
+     */
+    constructor(transform, size){
+        this.transform = transform;
+        this.size = size;
+    }
+    draw(){
+        let rightLegStart = new vector2D(this.transform.x - this.size/2, this.transform.y);
+        let rightLeg1Mid = new vector2D(rightLegStart.x - this.size/2, rightLegStart.y).rotate(-45, rightLegStart);
+        let rightLeg2Mid = new vector2D(rightLegStart.x - this.size/2, rightLegStart.y).rotate(-15, rightLegStart);
+        let rightLeg3Mid = new vector2D(rightLegStart.x - this.size/2, rightLegStart.y).rotate(15, rightLegStart);
+        let rightLeg4Mid = new vector2D(rightLegStart.x - this.size/2, rightLegStart.y).rotate(45, rightLegStart);
+
+        let leftLegStart = new vector2D(this.transform.x + this.size/2, this.transform.y);
+        let leftLeg1Mid = new vector2D(leftLegStart.x + this.size/2, leftLegStart.y).rotate(45, leftLegStart);
+        let leftLeg2Mid = new vector2D(leftLegStart.x + this.size/2, leftLegStart.y).rotate(15, leftLegStart);
+        let leftLeg3Mid = new vector2D(leftLegStart.x + this.size/2, leftLegStart.y).rotate(-15, leftLegStart);
+        let leftLeg4Mid = new vector2D(leftLegStart.x + this.size/2, leftLegStart.y).rotate(-45, leftLegStart);
+        //overall
+        ctx.lineWidth = this.size/50;
+        //Body
+        ctx.fillStyle = 'grey';
+        ctx.beginPath();
+        ctx.ellipse(this.transform.x, this.transform.y - this.size/2, this.size /1.5, this.size/1.5, 0, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.strokeStyle = 'white';
+        ctx.stroke();
+        //Head
+        ctx.beginPath();
+        ctx.ellipse(this.transform.x, this.transform.y, this.size /2, this.size /2, 0, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.stroke();
+        //Eyes
+        ctx.fillStyle = 'white';
+        ctx.beginPath();
+        ctx.ellipse(this.transform.x + this.size / 8, this.transform.y + this.size / 2, this.size /7, this.size /7, 0, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.beginPath();
+        ctx.ellipse(this.transform.x - this.size / 8, this.transform.y + this.size / 2, this.size /7, this.size /7, 0, 0, Math.PI * 2);
+        ctx.fill();
+        //EyeBall
+        ctx.fillStyle = 'black';
+        ctx.beginPath();
+        ctx.ellipse(this.transform.x + this.size / 8, this.transform.y + this.size / 2, this.size /18, this.size /18, 0, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.beginPath();
+        ctx.ellipse(this.transform.x - this.size / 8, this.transform.y + this.size / 2, this.size /18, this.size /18, 0, 0, Math.PI * 2);
+        ctx.fill();
+        //Legs-Left
+        ctx.fillStyle = 'white';
+        ctx.strokeStyle = 'dimgrey';
+        ctx.lineCap = 'round';
+        ctx.lineWidth = this.size/20;
+        ctx.beginPath();
+        ctx.ellipse(leftLegStart.x, leftLegStart.y, this.size /18, this.size/18, 0, 0, Math.PI * 2);
+        ctx.fill();
+        //Leg1-L
+        ctx.beginPath();
+        ctx.moveTo(leftLegStart.x, leftLegStart.y);
+        ctx.lineTo(leftLeg1Mid.x, leftLeg1Mid.y);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.ellipse(leftLeg1Mid.x, leftLeg1Mid.y, this.size /25, this.size/25, 0, 0, Math.PI * 2);
+        ctx.fill();
+        //leg2-L
+        ctx.beginPath();
+        ctx.moveTo(leftLegStart.x, leftLegStart.y);
+        ctx.lineTo(leftLeg2Mid.x, leftLeg2Mid.y);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.ellipse(leftLeg2Mid.x, leftLeg2Mid.y, this.size /25, this.size/25, 0, 0, Math.PI * 2);
+        ctx.fill();
+        //leg3-L
+        ctx.beginPath();
+        ctx.moveTo(leftLegStart.x, leftLegStart.y);
+        ctx.lineTo(leftLeg3Mid.x, leftLeg3Mid.y);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.ellipse(leftLeg3Mid.x, leftLeg3Mid.y, this.size /25, this.size/25, 0, 0, Math.PI * 2);
+        ctx.fill();
+        //leg4-L
+        ctx.beginPath();
+        ctx.moveTo(leftLegStart.x, leftLegStart.y);
+        ctx.lineTo(leftLeg4Mid.x, leftLeg4Mid.y);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.ellipse(leftLeg4Mid.x, leftLeg4Mid.y, this.size /25, this.size/25, 0, 0, Math.PI * 2);
+        ctx.fill();
+        //Legs-Right
+        ctx.beginPath();
+        ctx.ellipse(rightLegStart.x, rightLegStart.y, this.size /18, this.size/18, 0, 0, Math.PI * 2);
+        ctx.fill();
+        //Leg1-R
+        ctx.beginPath();
+        ctx.moveTo(rightLegStart.x, rightLegStart.y);
+        ctx.lineTo(rightLeg1Mid.x, rightLeg1Mid.y);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.ellipse(rightLeg1Mid.x, rightLeg1Mid.y, this.size /25, this.size/25, 0, 0, Math.PI * 2);
+        ctx.fill();
+        //Leg2-R
+        ctx.beginPath();
+        ctx.moveTo(rightLegStart.x, rightLegStart.y);
+        ctx.lineTo(rightLeg2Mid.x, rightLeg2Mid.y);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.ellipse(rightLeg2Mid.x, rightLeg2Mid.y, this.size /25, this.size/25, 0, 0, Math.PI * 2);
+        ctx.fill();
+        //Leg3-R
+        ctx.beginPath();
+        ctx.moveTo(rightLegStart.x, rightLegStart.y);
+        ctx.lineTo(rightLeg3Mid.x, rightLeg3Mid.y);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.ellipse(rightLeg3Mid.x, rightLeg3Mid.y, this.size /25, this.size/25, 0, 0, Math.PI * 2);
+        ctx.fill();
+        //Leg4-R
+        ctx.beginPath();
+        ctx.moveTo(rightLegStart.x, rightLegStart.y);
+        ctx.lineTo(rightLeg4Mid.x, rightLeg4Mid.y);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.ellipse(rightLeg4Mid.x, rightLeg4Mid.y, this.size /25, this.size/25, 0, 0, Math.PI * 2);
+        ctx.fill();
+        //Collision Bounds
+/*         ctx.lineWidth = 2;
+        ctx.strokeStyle = 'blue';
+        ctx.beginPath();
+        ctx.rect(this.transform.x - this.size /2, this.transform.y - this.size / 2, this.size, this.size);
+        ctx.stroke(); */
+    }
+}
+//==========================================
+//================= Events =================
 canvas.addEventListener('click', e =>{
     //objects.push(new Spiderweb(new vector2D(e.clientX, e.clientY), Math.random() * canvas.height/3 + 1, Math.random() * 10 + 3, Math.random() * 10 + 1));
     objects.push(new Insect(new vector2D(e.clientX, e.clientY), Math.random() * 40 + 20));
@@ -207,4 +344,5 @@ function render(){
     }
     requestAnimationFrame(render);
 }
+objects.push(new Spider(new vector2D(canvas.width/2, canvas.height/2), 200));
 render();
