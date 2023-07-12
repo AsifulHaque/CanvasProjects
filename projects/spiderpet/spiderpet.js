@@ -1,14 +1,14 @@
-//============== Setup ==============
+//============== Setup =====================
 const canvas = document.getElementById('canvas1');
 const ctx = canvas.getContext('2d');
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
-//============== Resize ==============
+//============== Resize ====================
 window.addEventListener('resize', function(){
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 })
-
+//==========================================
 //============== Vector Class ==============
 class vector2D {
     constructor(x, y){
@@ -94,12 +94,6 @@ class Spiderweb {
         }
     }
 }
-
-//============== Events ==============
-canvas.addEventListener('click', e =>{
-    //objects.push(new Spiderweb(new vector2D(e.clientX, e.clientY), Math.random() * canvas.height/3 + 1, Math.random() * 10 + 3, Math.random() * 10 + 1));
-    objects.push(new Insect(new vector2D(e.clientX, e.clientY), Math.random() * 40 + 20));
-});
 
 //============== Insect class =============
 class Insect{
@@ -192,6 +186,12 @@ class Insect{
         ctx.fill();
     }
 }
+
+//============== Events ==============
+canvas.addEventListener('click', e =>{
+    //objects.push(new Spiderweb(new vector2D(e.clientX, e.clientY), Math.random() * canvas.height/3 + 1, Math.random() * 10 + 3, Math.random() * 10 + 1));
+    objects.push(new Insect(new vector2D(e.clientX, e.clientY), Math.random() * 40 + 20));
+});
 
 //====================== Main Loop ====================
 let objects = [];
